@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Campus Desk – University Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2ef;--surface:#fff;--ink:#12343b;--muted:#5d7276;--line:#d5dfdb;--accent:#e8b931;--accent-ink:#3a2c00;--brand:#12343b;--brand-ink:#f2f7f5;--ok:#1d7a52;--bad:#b3392f;--bar:#2c7a7b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1b1e;--surface:#16282c;--ink:#e6f0ee;--muted:#8fa7ab;--line:#274045;--accent:#e8b931;--accent-ink:#2a2000;--brand:#091316;--brand-ink:#e6f0ee;--bar:#4fb3b3}}
+:root[data-theme="dark"]{--bg:#0e1b1e;--surface:#16282c;--ink:#e6f0ee;--muted:#8fa7ab;--line:#274045;--brand:#091316;--brand-ink:#e6f0ee;--bar:#4fb3b3}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.55 "IBM Plex Sans",system-ui,sans-serif;min-height:100vh}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0;letter-spacing:-.01em}
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+aside{background:var(--brand);color:var(--brand-ink);padding:24px 16px;position:sticky;top:0;height:100vh}
+.logo{font:700 22px "Bricolage Grotesque",sans-serif;padding:0 10px 22px}
+.logo span{display:block;font:400 12px "IBM Plex Sans",sans-serif;opacity:.65;margin-top:2px}
+nav button{display:flex;justify-content:space-between;width:100%;background:none;border:0;color:inherit;font:inherit;padding:10px 12px;border-radius:8px;cursor:pointer;text-align:left;margin-bottom:2px;opacity:.8}
+nav button:hover{background:rgba(255,255,255,.08);opacity:1}
+nav button.on{background:var(--accent);color:var(--accent-ink);opacity:1;font-weight:500}
+nav small{opacity:.8}
+.side-foot{position:absolute;bottom:20px;left:16px;right:16px;display:flex;gap:8px}
+.side-foot button{flex:1;background:rgba(255,255,255,.1);border:0;color:inherit;border-radius:8px;padding:8px;cursor:pointer;font:inherit;font-size:13px}
+main{padding:32px clamp(16px,4vw,44px);max-width:1100px;width:100%}
+.head{margin-bottom:22px}
+.head h1{font-size:clamp(26px,4vw,36px)}
+.head p{margin:4px 0 0;color:var(--muted)}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.card h2{font-size:18px;margin-bottom:12px}
+.stats{display:flex;flex-wrap:wrap;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:18px;overflow:hidden}
+.stat{flex:1 1 140px;padding:18px 20px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat b{display:block;font:700 34px/1.1 "Bricolage Grotesque",sans-serif}
+.stat span{color:var(--muted);font-size:13px}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.btn{margin-top:14px;background:var(--brand);color:var(--brand-ink);border:0;border-radius:8px;padding:10px 18px;font:500 15px "IBM Plex Sans",sans-serif;cursor:pointer}
+.btn.gold{background:var(--accent);color:var(--accent-ink)}
+.btn:hover{filter:brightness(1.1)}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-weight:500;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line)}
+.tbl td{padding:10px;border-bottom:1px solid var(--line)}
+.tbl tr:last-child td{border-bottom:0}
+.scroll{overflow-x:auto}
+.id{font-variant-numeric:tabular-nums;color:var(--muted)}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;background:var(--bg);border:1px solid var(--line);font-size:12px}
+.course{padding:18px 0;border-bottom:1px solid var(--line)}
+.course:first-child{padding-top:0}.course:last-child{border-bottom:0;padding-bottom:0}
+.course h3{font-size:17px}
+.meta{color:var(--muted);font-size:13px;margin:2px 0 10px}
+.seats{display:flex;align-items:center;gap:12px}
+.track{flex:1;height:12px;border-radius:6px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
+.fill{height:100%;background:var(--bar);border-radius:6px;transition:width .5s}
+.fill.full{background:var(--bad)}
+.seats em{font-style:normal;font-size:13px;min-width:78px;text-align:right}
+details{margin-top:10px}
+summary{cursor:pointer;color:var(--bar);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.empty{color:var(--muted);padding:8px 0}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--brand);color:var(--brand-ink);padding:11px 18px;border-radius:10px;opacity:0;transition:.25s;pointer-events:none;z-index:20}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.err{background:var(--bad);color:#fff}
+@media (max-width:760px){
+.app{grid-template-columns:1fr}
+aside{position:static;height:auto;padding:14px 12px}
+.logo{padding-bottom:10px}
+nav{display:flex;gap:4px;overflow-x:auto}
+nav button{width:auto;white-space:nowrap;gap:8px}
+.side-foot{display:none}
+.stat{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="logo">Campus Desk<span>University management</span></div>
+  <nav id="nav"></nav>
+  <div class="side-foot"><button id="theme">Toggle theme</button><button id="reset">Reset data</button></div>
+</aside>
+<main id="view"></main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+var KEY="campus-desk-v1", S, tab="overview", pickTeacher="";
+
+function seed(){return{n:{s:1005,t:2002,c:3003},
+students:[{id:1001,name:"Rahim Uddin",dept:"CSE"},{id:1002,name:"Nusrat Jahan",dept:"CSE"},{id:1003,name:"Karim Hossain",dept:"EEE"},{id:1004,name:"Sadia Akter",dept:"BBA"}],
+teachers:[{id:2001,name:"Dr. Farhana Alam",dept:"CSE"}],
+courses:[{id:3001,code:"CSE101",title:"Programming in C",teacherId:2001,cap:40,students:[1001,1002,1003]},{id:3002,code:"BBA110",title:"Principles of Management",teacherId:0,cap:30,students:[1004]}]}}
+
+function load(){try{var r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){}return seed()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+S=load();
+
+function esc(t){return String(t).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function $(id){return document.getElementById(id)}
+function stu(id){return S.students.find(function(x){return x.id===id})}
+function tea(id){return S.teachers.find(function(x){return x.id===id})}
+function crs(id){return S.courses.find(function(x){return x.id===id})}
+function val(id){return $(id).value.trim()}
+
+var tt;
+function toast(msg,err){var t=$("toast");t.textContent=msg;t.className="toast show"+(err?" err":"");clearTimeout(tt);tt=setTimeout(function(){t.className="toast"},2600)}
+
+function seatBlock(c){
+  var pct=Math.min(100,Math.round(c.students.length/c.cap*100));
+  return '<div class="seats"><div class="track"><div class="fill'+(pct>=100?' full':'')+'" style="width:'+pct+'%"></div></div><em>'+c.students.length+' / '+c.cap+' seats</em></div>';
+}
+function roster(c){
+  if(!c.students.length)return '<div class="empty">No students enrolled yet.</div>';
+  return '<div class="scroll"><table class="tbl"><tr><th>ID</th><th>Name</th><th>Department</th></tr>'+
+    c.students.map(function(id){var s=stu(id);return s?'<tr><td class="id">'+s.id+'</td><td>'+esc(s.name)+'</td><td>'+esc(s.dept)+'</td></tr>':''}).join("")+'</table></div>';
+}
+function courseCard(c,showTeacher){
+  var t=tea(c.teacherId);
+  return '<div class="course"><h3>'+esc(c.code)+' · '+esc(c.title)+'</h3><div class="meta">'+
+    (showTeacher?(t?'Taught by '+esc(t.name):'No teacher assigned'):'Course ID '+c.id)+'</div>'+seatBlock(c)+
+    '<details><summary>View '+c.students.length+' enrolled student'+(c.students.length===1?'':'s')+'</summary>'+roster(c)+'</details></div>';
+}
+
+/* ---------- views ---------- */
+function vOverview(){
+  var total=S.courses.reduce(function(a,c){return a+c.students.length},0);
+  return '<div class="head"><h1>Overview</h1><p>Everything happening on campus, in one place.</p></div>'+
+  '<div class="stats"><div class="stat"><b>'+S.students.length+'</b><span>Students admitted</span></div>'+
+  '<div class="stat"><b>'+S.courses.length+'</b><span>Courses offered</span></div>'+
+  '<div class="stat"><b>'+total+'</b><span>Total enrollments</span></div>'+
+  '<div class="stat"><b>'+S.teachers.length+'</b><span>Teachers</span></div></div>'+
+  '<div class="card"><h2>Enrollment by course</h2>'+
+  (S.courses.length?S.courses.map(function(c){return courseCard(c,true)}).join(""):'<div class="empty">No courses yet. Add one in the Courses tab.</div>')+'</div>';
+}
+
+function vStudents(){
+  return '<div class="head"><h1>Students</h1><p>Admit new students and see everyone enrolled in the university.</p></div>'+
+  '<div class="grid g2"><div class="card"><h2>New admission</h2>'+
+  '<label for="sn">Full name</label><input id="sn" placeholder="e.g. Tanvir Ahmed" autocomplete="off">'+
+  '<label for="sd">Department</label><input id="sd" placeholder="e.g. CSE" autocomplete="off">'+
+  '<button class="btn gold" onclick="admit()">Admit student</button></div>'+
+  '<div class="card"><h2>Total admitted</h2><div class="stat" style="padding:0;border:0"><b style="font-size:52px">'+S.students.length+'</b><span>students across '+new Set(S.students.map(function(s){return s.dept.toLowerCase()})).size+' departments</span></div></div></div>'+
+  '<div class="card" style="margin-top:18px"><h2>All students</h2><input id="q" placeholder="Search by name, ID or department" oninput="filterRows()" style="margin-bottom:10px">'+
+  '<div class="scroll"><table class="tbl" id="stbl"><tr><th>ID</th><th>Name</th><th>Department</th><th>Courses</th></tr>'+
+  S.students.map(function(s){
+    var n=S.courses.filter(function(c){return c.students.indexOf(s.id)>-1}).length;
+    return '<tr><td class="id">'+s.id+'</td><td>'+esc(s.name)+'</td><td>'+esc(s.dept)+'</td><td><span class="tag">'+n+' enrolled</span></td></tr>'}).join("")+
+  '</table></div>'+(S.students.length?'':'<div class="empty">No students yet. Use the admission form to add the first one.</div>')+'</div>';
+}
+
+function vCourses(){
+  var sOpt=S.students.map(function(s){return '<option value="'+s.id+'">'+s.id+' – '+esc(s.name)+'</option>'}).join("");
+  var cOpt=S.courses.map(function(c){return '<option value="'+c.id+'">'+esc(c.code)+' – '+esc(c.title)+'</option>'}).join("");
+  return '<div class="head"><h1>Courses</h1><p>Create courses and enroll students. Each course tracks its own seats.</p></div>'+
+  '<div class="grid g2"><div class="card"><h2>Add a course</h2>'+
+  '<div class="row"><div><label for="cc">Code</label><input id="cc" placeholder="CSE201"></div><div><label for="cp">Seats</label><input id="cp" type="number" min="1" value="40"></div></div>'+
+  '<label for="ct">Title</label><input id="ct" placeholder="Data Structures">'+
+  '<button class="btn gold" onclick="addCourse()">Add course</button></div>'+
+  '<div class="card"><h2>Enroll a student</h2>'+
+  '<label for="es">Student</label><select id="es">'+(sOpt||'<option value="">No students yet</option>')+'</select>'+
+  '<label for="ec">Course</label><select id="ec">'+(cOpt||'<option value="">No courses yet</option>')+'</select>'+
+  '<button class="btn gold" onclick="enroll()">Enroll student</button></div></div>'+
+  '<div class="card" style="margin-top:18px"><h2>Course-wise enrollment</h2>'+
+  (S.courses.length?S.courses.map(function(c){return courseCard(c,true)}).join(""):'<div class="empty">No courses yet.</div>')+'</div>';
+}
+
+function vTeachers(){
+  var tOpt=S.teachers.map(function(t){return '<option value="'+t.id+'">'+esc(t.name)+'</option>'}).join("");
+  var cOpt=S.courses.map(function(c){return '<option value="'+c.id+'">'+esc(c.code)+' – '+esc(c.title)+'</option>'}).join("");
+  var sel=pickTeacher||(S.teachers[0]&&S.teachers[0].id)||"";
+  var t=tea(Number(sel));
+  var mine=t?S.courses.filter(function(c){return c.teacherId===t.id}):[];
+  return '<div class="head"><h1>Teacher panel</h1><p>Manage teachers and see exactly who sits in each class.</p></div>'+
+  '<div class="grid g2"><div class="card"><h2>Add a teacher</h2>'+
+  '<label for="tn">Full name</label><input id="tn" placeholder="e.g. Prof. Mahmud Hasan">'+
+  '<label for="td">Department</label><input id="td" placeholder="e.g. EEE">'+
+  '<button class="btn gold" onclick="addTeacher()">Add teacher</button></div>'+
+  '<div class="card"><h2>Assign to a course</h2>'+
+  '<label for="at">Teacher</label><select id="at">'+(tOpt||'<option value="">No teachers yet</option>')+'</select>'+
+  '<label for="ac">Course</label><select id="ac">'+(cOpt||'<option value="">No courses yet</option>')+'</select>'+
+  '<button class="btn gold" onclick="assign()">Assign teacher</button></div></div>'+
+  '<div class="card" style="margin-top:18px"><h2>All teachers ('+S.teachers.length+')</h2>'+
+  (S.teachers.length?'<div class="scroll"><table class="tbl"><tr><th>ID</th><th>Name</th><th>Department</th><th>Courses</th></tr>'+
+  S.teachers.map(function(x){return '<tr><td class="id">'+x.id+'</td><td>'+esc(x.name)+'</td><td>'+esc(x.dept)+'</td><td><span class="tag">'+S.courses.filter(function(c){return c.teacherId===x.id}).length+' assigned</span></td></tr>'}).join("")+'</table></div>':'<div class="empty">No teachers yet.</div>')+'</div>'+
+  '<div class="card" style="margin-top:18px"><h2>Teacher’s view</h2>'+
+  (t?'<label for="pt">Viewing as</label><select id="pt" onchange="pickTeacher=this.value;render()" style="max-width:320px;margin-bottom:16px">'+
+    S.teachers.map(function(x){return '<option value="'+x.id+'"'+(x.id===t.id?' selected':'')+'>'+esc(x.name)+'</option>'}).join("")+'</select>'+
+    (mine.length?mine.map(function(c){return courseCard(c,false)}).join(""):'<div class="empty">'+esc(t.name)+' has no courses yet. Assign one above.</div>'):'<div class="empty">Add a teacher to see their classes here.</div>')+'</div>';
+}
+
+/* ---------- actions ---------- */
+function admit(){
+  var n=val("sn"),d=val("sd");
+  if(!n||!d){toast("Enter both a name and a department.",1);return}
+  var id=S.n.s++;S.students.push({id:id,name:n,dept:d});save();render();
+  toast(n+" admitted. Student ID "+id+".");
+}
+function addCourse(){
+  var c=val("cc"),t=val("ct"),p=parseInt(val("cp"),10);
+  if(!c||!t){toast("Enter a course code and title.",1);return}
+  if(!(p>0)){toast("Seats must be at least 1.",1);return}
+  var id=S.n.c++;S.courses.push({id:id,code:c.toUpperCase(),title:t,teacherId:0,cap:p,students:[]});save();render();
+  toast("Course "+c.toUpperCase()+" added.");
+}
+function enroll(){
+  var s=Number(val("es")),c=crs(Number(val("ec")));
+  if(!s||!c){toast("Pick a student and a course first.",1);return}
+  if(c.students.indexOf(s)>-1){toast("That student is already in "+c.code+".",1);return}
+  if(c.students.length>=c.cap){toast(c.code+" is full.",1);return}
+  c.students.push(s);save();render();toast(stu(s).name+" enrolled in "+c.code+".");
+}
+function addTeacher(){
+  var n=val("tn"),d=val("td");
+  if(!n||!d){toast("Enter both a name and a department.",1);return}
+  var id=S.n.t++;S.teachers.push({id:id,name:n,dept:d});if(!pickTeacher)pickTeacher=String(id);save();render();
+  toast(n+" added. Teacher ID "+id+".");
+}
+function assign(){
+  var t=tea(Number(val("at"))),c=crs(Number(val("ac")));
+  if(!t||!c){toast("Pick a teacher and a course first.",1);return}
+  c.teacherId=t.id;pickTeacher=String(t.id);save();render();toast(t.name+" now teaches "+c.code+".");
+}
+function filterRows(){
+  var q=val("q").toLowerCase();
+  Array.prototype.forEach.call(document.querySelectorAll("#stbl tr:not(:first-child)"),function(r){r.style.display=r.textContent.toLowerCase().indexOf(q)>-1?"":"none"});
+}
+
+/* ---------- shell ---------- */
+var TABS=[["overview","Overview"],["students","Students"],["courses","Courses"],["teachers","Teacher panel"]];
+function render(){
+  $("nav").innerHTML=TABS.map(function(t){
+    var n=t[0]==="students"?S.students.length:t[0]==="courses"?S.courses.length:t[0]==="teachers"?S.teachers.length:"";
+    return '<button class="'+(tab===t[0]?'on':'')+'" onclick="go(\''+t[0]+'\')">'+t[1]+(n!==""?'<small>'+n+'</small>':'')+'</button>'}).join("");
+  $("view").innerHTML=({overview:vOverview,students:vStudents,courses:vCourses,teachers:vTeachers})[tab]();
+}
+function go(t){tab=t;render();window.scrollTo(0,0)}
+$("theme").onclick=function(){
+  var r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+  r.dataset.theme=dark?"light":"dark";
+};
+$("reset").onclick=function(){if(confirm("Reset all data to the sample set?")){S=seed();pickTeacher="";save();render();toast("Data reset.")}};
+render();
+</script>
+</body>
+</html>
